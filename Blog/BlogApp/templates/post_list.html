@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>singun11과 함께 춤을</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+    <h1>
+        singun11과 함께 춤을
+    </h1>
+    
+    <a href=" {%url 'new'%}">새로운 글 쓰기</a>
+
+    {%for post in posts %}
+
+    <hr>
+    <a href="{%url 'detail' post.id%}">
+
+        <table>
+            <tr>
+                <th>
+                    {% if post.rep_img %}
+                    <img class="post-rep-img" src="{{ post.rep_img.url }}">
+                    {% endif %}
+                </th>
+                <th>
+                    <h2>{{post.title}}</h2>작성자: {{post.publisher}}            
+                    <br>
+                    {{post.published_at}}
+                    <br>
+                    {{post.body}}
+                </th>
+                <th>
+                </th>
+            </tr>
+        </table>
+
+        <br>
+    </a>
+
+    {%endfor%}
+    </body>
+
+</html>

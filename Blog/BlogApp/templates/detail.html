@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{post.title}}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class = "upper">
+        {% if post.rep_img %}
+        <div style="background: url({{post.rep_img.url}}); background-repeat: no-repeat;" class = "post-cover">
+            <h1>{{post.title}}</h1>
+            
+        </div>
+        {% endif %}
+    </div>
+    
+    <hr>
+    {{post.published_at}}
+    <br>
+    {{post.body}}
+
+
+    <a href="{%url 'edit' post.id %}">글 수정</a>
+    <a href="{%url 'delete' post.id %}">글 삭제</a>
+    <a href="{%url 'post_list' %}">글 목록</a>
+</body>
+</html>
