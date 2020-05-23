@@ -15,10 +15,10 @@ def date_upload_to(instance, filename):
 class Blog(models.Model):
     title = models.CharField(max_length = 200)
     publisher = models.CharField(max_length=50)
-    rep_img = models.ImageField(upload_to=date_upload_to, default = None)
+    rep_img = models.ImageField(upload_to=date_upload_to, blank = True, default = None)
     published_at = models.DateTimeField()
     body = models.TextField()
-    hashtag = models.TextField(default = None)
+    hashtag = models.TextField(blank = True, default = None)
 
     def __str__(self):
         return self.title

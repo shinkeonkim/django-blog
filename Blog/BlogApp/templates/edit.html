@@ -19,11 +19,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
-    }
 </head>
 
 <body>
-    {% load bootstrap4 %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{%url 'post_list'%}">singun11과 함께 춤을</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -42,55 +40,20 @@
             </ul>
         </div>
     </nav>
+    {% load bootstrap4 %}
     <h1>
         글 수정하기
     </h1>
 
-    <form action="{%url 'update' post.id%}" method="POST" enctype="multipart/form-data">
-        {%csrf_token%}
+    <form action="{%url 'update' post_id%}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% block container %}
         <table>
-            <tr>
-                <th>
-                    Title:
-                </th>
-                <td>
-                    <input type="text" name="title" value="{{post.title}}">
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    Publisher:
-                </th>
-                <td>
-                    <input type="text" name="publisher" value="{{post.publisher}}">
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    Rep img:
-                </th>
-                <td>
-                    <input type="file" name="rep_img" value="{{ post.rep_img.url }}">
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    Body:
-                </th>
-                <td>
-                    <textarea name="body" id="" cols="50" rows="30">{{post.body}}</textarea>
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    Hashtag:
-                </th>
-                <td>
-                    <textarea name="hashtag" id="" cols="30" rows="10">{{post.hashtag}}</textarea>
-                </td>
-            </tr>
+            {% bootstrap_form form %}
         </table>
-        <button type="submit">작성</button>
+        <button type="submit">수정</button>
+        {% endblock %}
     </form>
 </body>
 

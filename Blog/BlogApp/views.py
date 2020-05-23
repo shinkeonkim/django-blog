@@ -40,18 +40,19 @@ def create(request):
 
 
 def edit(request, post_id):
-    edit_post = get_object_or_404(Blog, pk = post_id)
-    return render(request, 'edit.html', {'post':edit_post})
-
+    form = PostForm(instance=Blog.objects.get(pk=post_id))
+    return render(request, 'edit.html', {'form':form, 'post_id':post_id})
 
 def update(request, post_id):
     update_blog = get_object_or_404(Blog, pk = post_id)
     update_blog.title = request.POST['title']
     update_blog.body = request.POST['body']
     update_blog.publisher = request.POST['publisher']
-    update_blog.rep_img = request.FILES['rep_img']
+    try:
+        update_blog.rep_img = request.FILES['rep_img']
+    except:
+        pass
     update_blog.hashtag = request.POST['hashtag']
-    update_blog.published_at = timezone.datetime.now()
     update_blog.save()
     return redirect('detail', update_blog.id)
 
