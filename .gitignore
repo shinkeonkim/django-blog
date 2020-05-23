@@ -1,3 +1,5 @@
 *__pycache__*
 django-env/
 */media/*
+*/secrets.json
+*/static/admin

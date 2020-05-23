@@ -12,11 +12,48 @@
 
     <form action="{%url 'update' post.id%}" method = "POST" enctype="multipart/form-data">
         {%csrf_token%}
-        제목: <input type="text" name="title"  value = "{{post.title}}">
-        작성자: <input type="text" name="publisher" value = "{{post.publisher}}">
-        타이틀 화면: <input type="file" name="rep_img" value = "{{ post.rep_img.url }}">
-        <hr>
-        본문: <textarea name="body" id="" cols="30" rows="10">{{post.body}}</textarea>
+        <table>
+            <tr>
+                <th>
+                    Title:
+                </th>
+                <td>
+                    <input type="text" name="title"  value = "{{post.title}}">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Publisher:
+                </th>
+                <td>
+                    <input type="text" name="publisher" value = "{{post.publisher}}">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Rep img:
+                </th>
+                <td>
+                    <input type="file" name="rep_img" value = "{{ post.rep_img.url }}">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Body:
+                </th>
+                <td>
+                    <textarea name="body" id="" cols="50" rows="30">{{post.body}}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Hashtag:
+                </th>
+                <td>
+                    <textarea name="hashtag" id="" cols="30" rows="10">{{post.hashtag}}</textarea>
+                </td>
+            </tr>
+        </table>
         <button type="submit">작성</button>
     </form>
 </body>

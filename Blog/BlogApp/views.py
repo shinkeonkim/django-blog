@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Blog
+from .form import PostForm
 from django.utils import timezone
 
 # Create your views here.
@@ -14,7 +15,16 @@ def detail(request, post_id):
 
 
 def new(request):
-    return render(request, 'new.html')
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            content = form.save(commit = False)
+            content.published_at = timezone.datetime.now()
+            content.save()
+            return redirect('post_list')
+    else:
+        form = PostForm()
+        return render(request, 'new.html', {'form':form})
 
 
 def create(request):
@@ -23,6 +33,7 @@ def create(request):
     new_blog.body = request.POST['body']
     new_blog.publisher = request.POST['publisher']
     new_blog.rep_img = request.FILES['rep_img']
+    new_blog.hashtag = request.POST['hashtag']
     new_blog.published_at = timezone.datetime.now()
     new_blog.save()
     return redirect('/blog/'+str(new_blog.id))
@@ -37,8 +48,9 @@ def update(request, post_id):
     update_blog = get_object_or_404(Blog, pk = post_id)
     update_blog.title = request.POST['title']
     update_blog.body = request.POST['body']
-    new_blog.publisher = request.POST['publisher']
+    update_blog.publisher = request.POST['publisher']
     update_blog.rep_img = request.FILES['rep_img']
+    update_blog.hashtag = request.POST['hashtag']
     update_blog.published_at = timezone.datetime.now()
     update_blog.save()
     return redirect('detail', update_blog.id)

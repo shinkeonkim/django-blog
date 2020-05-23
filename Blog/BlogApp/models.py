@@ -18,9 +18,13 @@ class Blog(models.Model):
     rep_img = models.ImageField(upload_to=date_upload_to, default = None)
     published_at = models.DateTimeField()
     body = models.TextField()
-    hashtag = models.TextField()
+    hashtag = models.TextField(default = None)
 
     def __str__(self):
         return self.title
+
+
+    def summary(self):
+        return self.body[:100]
 
     
