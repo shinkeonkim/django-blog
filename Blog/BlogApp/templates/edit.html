@@ -51,10 +51,9 @@
         {% csrf_token %}
 
         {% block container %}
-        <table>
-            {% bootstrap_form form %}
-        </table>
-        <button type="submit">수정</button>
+        {% bootstrap_form form %}
+        
+        <button type="submit" class="btn btn-secondary btn-lg btn-block">수정</button>
         {% endblock %}
     </form>
 </body>
