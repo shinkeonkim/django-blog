@@ -36,9 +36,28 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{%url 'post_list'%}">글 목록</a>
                 </li>
+
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'post_list'%}">{{user.username}}</a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{%url 'new'%}">글 쓰기</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'logout'%}">로그아웃</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'login'%}">로그인</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'register'%}">회원가입</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
@@ -62,7 +81,7 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title">{{post.title}}</h5>
-                            <p class="card-text">{{post.summary}}</p>{{post.hashtag}}
+                            <p class="card-text">{{post.summary}}</p>
                             <p class="card-text"><small class="text-muted">{{post.published_at}}</small></p>
                             <p class="card-text"><small class="text-muted">{{post.publisher}}</small></p>
                             <p class="card-text"><small class="text-muted">{{post.hashtag}}</small></p>

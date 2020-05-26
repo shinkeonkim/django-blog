@@ -38,6 +38,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
+AUTH_USER_MODEL = "account.CustomUserModel"
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -60,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'BlogApp',
     'bootstrap4',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -77,7 +80,7 @@ ROOT_URLCONF = 'Blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'BlogApp', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'BlogApp', 'templates'),os.path.join(BASE_DIR, 'account', 'templates') ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
