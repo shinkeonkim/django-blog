@@ -56,6 +56,9 @@
             {{post.published_at}}
             <a href="{%url 'edit' post.id %}">글 수정</a>
             <a href="{%url 'delete' post.id %}">글 삭제</a>
+            <img src="" alt="아무튼 따봉 이미지"> {{like_num}}
+            <a href="{%url 'like' post.id %}">좋아요</a>
+
 
         </div>
     </div>
@@ -75,6 +78,25 @@
             {{post.hashtag}}
         </div>
     </div>
+
+    <hr width="85%">
+    
+    <div>
+        {% for comment in comments %}
+        <div class="content">
+            {{comment.author}}
+            {{comment.body}}
+            {{comment.published_at}}
+        </div>
+        {% endfor %}
+    </div>
+
+    댓글 달기
+    <form action="{% url 'commenting' post.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name = "body">
+        <button type="submit">작성</button>
+    </form>
 </body>
 
 </html>

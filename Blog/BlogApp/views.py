@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Blog
+from .models import Blog, Comment
 from .form import PostForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -12,7 +12,25 @@ def post_list(request):
 
 def detail(request, post_id):
     post = get_object_or_404(Blog, pk =  post_id)
-    return render(request, 'detail.html', {'post':post})
+    comments = Comment.objects.filter(blog = post)
+    like_num = len(post.like.all())
+    return render(request, 'detail.html', {'post':post, 'comments': comments, 'like_num': like_num})
+
+@login_required(login_url='/account/login/')
+def commenting(request, post_id):
+    new_comment = Comment()
+    new_comment.blog = get_object_or_404(Blog, pk= post_id)
+    new_comment.author = request.user
+    new_comment.body = request.POST.get('body')
+    new_comment.save()
+    return redirect('/blog/'+ str(post_id))
+
+@login_required(login_url='/account/login/')
+def like(request, post_id):
+    blog = get_object_or_404(Blog, pk = post_id)
+    blog.like.add(request.user)
+    blog.save()
+    return redirect('/blog/'+str(post_id))
 
 @login_required(login_url='/account/login/')
 def new(request):
