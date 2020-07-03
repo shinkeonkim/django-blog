@@ -14,8 +14,7 @@ CRUD 관련 내용이며, 블로그 글 목록, 글 쓰기, 글 수정, 글 삭�
 ```
 2. 패키지 설치
 ```
-$ pip install Pillow
-$ pip install django-bootstrap4
+$ pip install -r requirements.txt
 ```
 
 3. db 설정
