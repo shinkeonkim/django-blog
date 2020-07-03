@@ -20,23 +20,46 @@ class Blog(models.Model):
     published_at = models.DateTimeField()
     body = models.TextField()
     hashtag = models.TextField(blank = True, default = None)
-    like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likers')
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likers', blank=True, through='Like')
 
     def __str__(self):
         return self.title
 
+    def title_summary(self):
+        add = ""
+        if len(self.title) > 10:
+            add = "..."
+        return self.title[:10] + add 
 
     def summary(self):
-        return self.body[:100]
+        add = ""
+        if len(self.body) > 20:
+            add = "..."
+        return self.body[:20] + add 
+
+    def hashtag_summary(self):
+        add = ""
+        if len(self.hashtag) > 15:
+            add = "..."
+        return self.hashtag[:15] + add
+
+    def like_count(self):
+        return self.like_users.count()
 
 
 class Comment(models.Model):
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null = True, blank = True, related_name='comments')
     body = models.TextField()
-    created_at = models.DateTimeField(auto_now=True)
-    published_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.author} 님이 {self.blog}에 단 댓글"
-    
+
+
+class Like(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

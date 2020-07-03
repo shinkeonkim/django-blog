@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from django.urls import re_path
 
 urlpatterns = [
     path('', views.post_list, name = 'post_list'),
@@ -10,5 +11,5 @@ urlpatterns = [
     path('update/<int:post_id>', views.update, name = 'update'),
     path('delete/<int:post_id>', views.delete, name = 'delete'),
     path('commenting/<int:post_id>', views.commenting, name = 'commenting'),
-    path('like/<int:post_id>', views.like, name = 'like'),
+    re_path(r'^like/$', views.like, name='like'),
 ]

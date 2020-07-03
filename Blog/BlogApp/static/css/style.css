@@ -1,11 +1,11 @@
-.post-rep-img {
-    width: 100%;
+body {
+    background-color: #f8f9fa;
 }
 
-.post-cover {
+/* .post-cover {
     width: 100%;
     height: 300px;
-}
+} */
 
 a {
     color: black;
@@ -32,12 +32,6 @@ a {
 
 .inner .hashtag {
     box-shadow: 1px 1px 2px 2px gray;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
 }
 
 .background {
