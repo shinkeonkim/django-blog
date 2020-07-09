@@ -24,7 +24,10 @@ def detail(request, post_id):
     post.represent_user = ""
     if len(post.like_users.all()) > 0:
         post.represent_user = post.like_users.all()[0].username
-    return render(request, 'detail.html', {'post': post, 'comments': comments})
+    isLiked = False
+    if request.user in post.like_users.all():
+        isLiked = True
+    return render(request, 'detail.html', {'post': post, 'comments': comments, 'isLiked' : isLiked})
 
 
 @login_required(login_url='/account/login/')
@@ -46,8 +49,10 @@ def like(request):
 
     if request.user in post.like_users.all():
         post.like_users.remove(request.user)
+        isLiked = False
         message = "좋아요 취소"
     else:
+        isLiked = True
         post.like_users.add(request.user)
         message = "좋아요"
     
@@ -59,7 +64,8 @@ def like(request):
     context = {'like_count': str(post.like_count()),
                'message': message,
                'username': str(request.user.username),
-               'represent_user': represent_user}
+               'represent_user': represent_user,
+               "isLiked": isLiked}
     
     return HttpResponse(json.dumps(context), content_type="application/json")
 

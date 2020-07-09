@@ -1,11 +1,11 @@
-.post-rep-img {
-    width: 100%;
+body {
+    background-color: #f8f9fa;
 }
 
-.post-cover {
+/* .post-cover {
     width: 100%;
     height: 300px;
-}
+} */
 
 a {
     color: black;
@@ -24,6 +24,7 @@ a {
     width:80%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 10%;
 }
 
 .inner .content {
@@ -31,13 +32,8 @@ a {
 }
 
 .inner .hashtag {
-    box-shadow: 1px 1px 2px 2px gray;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
+    margin-top: 20px;
+    font-weight: bold;
 }
 
 .background {
@@ -60,6 +56,35 @@ body {
 
 .background-title {
     position: absolute;
-    top:15%;
+    top:7%;
     margin-left: 30px;
+}
+
+
+.comments {
+    box-shadow: 1px 1px 2px 2px gray;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 3px;
+}
+
+#comment-author {
+    color: blue;
+    font-weight: bold;
+    margin-bottom: 0.1px;
+}
+
+#comment-updated-at {
+    color: gray;
+    font-weight: lighter;
+    font-size: small;
+}
+#comment-content {
+    font-weight: normal;
+    color: black;
+    font-size: medium;
+}
+
+#comment-input {
+    width: 80%;
 }

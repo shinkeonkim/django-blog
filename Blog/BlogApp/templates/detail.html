@@ -7,6 +7,8 @@
 {% load bootstrap4 %}
 
 {% block content %}
+{% load static %}
+
 <div class="upper">
         <div class="background">
             {% if post.rep_img %}
@@ -18,15 +20,23 @@
             {{post.published_at}}
             <a href="{%url 'edit' post.id %}">글 수정</a>
             <a href="{%url 'delete' post.id %}">글 삭제</a>
-            <img src="" alt="아무튼 따봉 이미지"> 
-            {% if post.like_count == 1%}
-                <a class = "like" id = "like-text-{{post.id}}" name={{post.id}}> {{post.represent_user}} 님이 좋아합니다. </a>
-            {% elif post.like_count > 1%} 
-                <a class = "like" id = "like-text-{{post.id}}" name={{post.id}}> {{post.represent_user}} 님 외에 <script> document.write({{ post.like_count }} -1); </script> 명이 좋아합니다. </a>
+            
+            {% if isLiked %} 
+                <img src="{% static 'thumbs-up-solid.svg' %}" alt="" style="height: 1rem;" id = "isLiked">
             {% else %}
-                <a class = "like" id = "like-text-{{post.id}}" name={{post.id}}>좋아요 0 개</a>
-            {%endif%}
+                <img src="{% static 'thumbs-up-regular.svg' %}" alt="" style="height: 1rem;" id = "isLiked">
+            {% endif%}
 
+            
+            <a class = "like" id = "like-text-{{post.id}}" name={{post.id}}>
+                {% if post.like_count == 1%}
+                    {{post.represent_user}} 님이 좋아합니다.
+                {% elif post.like_count > 1%} 
+                    {{post.represent_user}} 님 외에 <script> document.write({{ post.like_count }} -1); </script> 명이 좋아합니다.
+                {% else %}
+                    좋아요 0 개
+                {%endif%}
+            </a>
         </div>
     </div>
 
@@ -34,38 +44,47 @@
 
     <div class="inner">
 
+        
         <div class="content">
             {{post.body}}
+            <div class="hashtag">
+                {{post.hashtag}}
+            </div>
         </div>
-
+        
         <hr>
+        
+        <div class = "comments">
+            <h4> 댓글 </h4>
+            {% for comment in comments %}
+            <div class="comment">
+                <p id = "comment-author">
+                    {{comment.author}}
+                    <span id = "comment-updated-at">
+                        {{comment.updated_at}}
+                    </span>
+                </p>
+                <span id = "comment-content">
+                    {{comment.body}}
+                </span>
+                
+            </div>
 
-
-        <div class="hashtag">
-            {{post.hashtag}}
+            <span id = "comment-author">
+            {% endfor %}
+            </span>
+            <form action="{% url 'commenting' post.id %}" method="post">
+                {% csrf_token %}
+                {{request.user}}
+                <input type="text" name = "body" id = "comment-input">
+                <button type="submit">작성</button>
+            </form>
         </div>
-    </div>
-
-    <hr width="85%">
     
-    <div>
-        {% for comment in comments %}
-        <div class="content">
-            {{comment.author}}
-            {{comment.body}}
-            {{comment.published_at}}
-        </div>
-        {% endfor %}
     </div>
 
-    댓글 달기
     
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <form action="{% url 'commenting' post.id %}" method="post">
-        {% csrf_token %}
-        <input type="text" name = "body">
-        <button type="submit">작성</button>
-    </form>
     <script type="text/javascript">
         $(".like").click(function () {
             var post_id = $(this).attr('name');
@@ -76,6 +95,12 @@
                 dataType: "json",
                 success: function (response) {
                     var cnt = response.like_count * 1;
+                    if(response.isLiked) {
+                        $("#isLiked").attr("src", "{% static 'thumbs-up-solid.svg' %}");
+                    }
+                    else {
+                        $("#isLiked").attr("src", "{% static 'thumbs-up-regular.svg' %}");
+                    }
                     if(cnt == 0) {
                         $("#like-text-" + post_id).html("좋아요 0개");
                     }
@@ -84,7 +109,6 @@
                     }
                     else {
                         $("#like-text-" + post_id).html(response.represent_user + "님 외에" + (cnt - 1) + "명이 좋아합니다.");
-
                     }
                 },
                 error: function (request, status, error) {
